@@ -9,6 +9,7 @@ How the data was cleaned and analysed, and why. Every rule here is in `sql/` or 
 | Querying a million rows on a laptop | DuckDB, plain SQL files | Fast enough to rebuild everything in seconds; the rules can be read as SQL |
 | Statistics and charts | pandas, SciPy, statsmodels, matplotlib | The standard Python stack |
 | The owners' report | Power BI Desktop | What most UK data analyst job adverts ask for. It runs only on Windows, so it was built on a short-lived Windows machine in AWS |
+| The Windows machine | EC2 m7i-flex.large, Windows Server 2022, London | The account's Free plan refused a t3.xlarge; this type is allowed and has 8 GiB of memory, enough for Desktop with this data. $0.198 an hour, deleted as soon as the files were saved |
 | Checks | pytest on the full dataset, ruff | Every cleaning rule is tested against all 1,067,371 rows |
 
 ## Cleaning

@@ -22,6 +22,18 @@ A data analysis of 1,067,371 real transactions from an online gift-ware retailer
 - Overseas customers' typical order is £119 bigger than UK customers' (95% interval £89 to £149).
 - Customers buy whole product ranges: all 50 of the most strongly linked product pairs are two items from the same range.
 
+## The Power BI report
+
+Three pages for the owners: the overview, customers, and products and returns. The saved report is [powerbi/RetailSales.pbix](powerbi/RetailSales.pbix), and [powerbi/RetailSales.pdf](powerbi/RetailSales.pdf) is the same report exported from Desktop.
+
+![Overview page](docs/figures/powerbi-1.png)
+
+![Customers page](docs/figures/powerbi-2.png)
+
+![Products and returns page](docs/figures/powerbi-3.png)
+
+The report is written as code. `powerbi/build_pbip.py` generates a Power BI Project (TMDL model, PBIR pages), and `powerbi/validate.py` checks it against Microsoft's schemas before Desktop sees it. CI regenerates the project and fails if it differs from the committed one. Desktop runs only on Windows, so `scripts/powerbi_vm.sh` creates a Windows machine in AWS, copies the project and data onto it, and deletes everything afterwards; the build log says how Desktop was driven on it.
+
 ## Cleaning, in one table
 
 Every row is kept as a sale or set aside with a reason, and the categories add back up to the 1,067,371 rows in the workbook. A test checks each rule against the full dataset.
@@ -46,7 +58,11 @@ python3.13 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python scripts/build.py       # builds data/retail.duckdb from sql/
 .venv/bin/pytest -q                     # every cleaning rule, on all 1,067,371 rows
 .venv/bin/python analysis/run.py        # out/metrics.json, docs/figures/, data/powerbi/
+.venv/bin/python powerbi/build_pbip.py  # the Power BI Project in powerbi/
+.venv/bin/python powerbi/validate.py    # schema and field checks
 ```
+
+The `.pbix` needs Power BI Desktop: `scripts/powerbi_vm.sh up` builds a Windows machine with it installed, `fetch` copies the saved files back and `down` deletes the machine.
 
 ## Data
 
