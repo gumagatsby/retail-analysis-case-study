@@ -1,0 +1,129 @@
+<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><title>Walkthrough: Online retail analytics</title>
+<style>
+@page{size:A4;margin:16mm 16mm 18mm}
+body{font:10.2pt/1.5 "Helvetica Neue",Helvetica,Arial,sans-serif;color:#16191f;margin:0}
+h1{font-size:21pt;margin:0 0 2px;color:#16191f}
+.sub{color:#4a5260;margin:0 0 14px}
+h2{font-size:14pt;color:#16191f;margin:22px 0 6px;break-after:avoid}
+h3{font-size:11pt;margin:12px 0 4px;break-after:avoid}
+p{margin:4px 0}
+ul,ol{margin:4px 0;padding-left:18px}li{margin:2px 0}
+code{font:9pt/1.4 Menlo,monospace;background:#eef1f5;padding:1px 4px;border-radius:3px}
+table{border-collapse:collapse;width:100%;margin:6px 0;font-size:9.4pt}
+tr{break-inside:avoid}
+th,td{border:1px solid #d3d9e2;padding:4px 6px;text-align:left;vertical-align:top}
+th{background:#eef1f5}
+.q{font-weight:700;margin-top:10px}
+.a{margin:2px 0 6px}
+img{break-inside:avoid;box-sizing:border-box;width:100%;border:1px solid #dde2ea;border-radius:4px;margin:6px 0}
+.page{break-before:page}
+</style></head>
+<body>
+
+<h1>Online retail analytics</h1>
+<p class="sub">How it works, why it was built this way, everything that went wrong on the way, and how to talk about it in an interview.<br>Repo: github.com/gumagatsby/retail-analysis-case-study</p>
+
+<img src="architecture.png" alt="Architecture diagram">
+
+<h3>In one sentence</h3>
+<p>I took two years of a real UK online retailer's transactions, 1,067,371 rows, accounted for every one of them, answered six questions its owners would ask in plain English with the statistics behind them, and built a Power BI report as code on a Windows machine in AWS that existed only while the report was made.</p>
+
+<h2>Part 1. What it is</h2>
+<p>The data is real: Online Retail II from the UCI Machine Learning Repository (CC BY 4.0), every transaction of an anonymous UK gift-ware retailer from December 2009 to December 2011. It has no shops, many customers are small businesses buying to resell, and it sells to 43 countries. The questions are the ones its owners would ask; nobody from the business commissioned this. A good answer is in plain English, with the figure behind it and how sure it is, and every row of the spreadsheet is accounted for.</p>
+<table><tr><th>Piece</th><th>Technology</th><th>Job</th></tr>
+<tr><td>Extract</td><td>Python, pandas</td><td>Downloads the workbook, checks its checksum, reads both sheets as text with sheet and row number kept</td></tr>
+<tr><td>Cleaning and model</td><td>DuckDB, three plain SQL files</td><td>Types, one category per row with a reason, the sales, returns and customers tables</td></tr>
+<tr><td>Tests</td><td>pytest on the full dataset, ruff</td><td>Every cleaning rule checked against all 1,067,371 rows</td></tr>
+<tr><td>Analysis</td><td>pandas, SciPy, statsmodels, matplotlib</td><td>Cohorts, segments, the significance test, the forecast, product pairs, the charts</td></tr>
+<tr><td>Report</td><td>Power BI Desktop, written as a Power BI Project (TMDL, PBIR)</td><td>Three pages for the owners: overview, customers, products and returns</td></tr>
+<tr><td>Windows machine</td><td>EC2 m7i-flex.large, Windows Server 2022, S3, Systems Manager</td><td>Runs Desktop, which needs Windows; deleted as soon as the files were saved</td></tr>
+<tr><td>CI</td><td>GitHub Actions</td><td>Rebuilds from the raw workbook and fails if any figure or the Power BI project changes</td></tr></table>
+
+<h3>Choices that shaped it</h3>
+<ul>
+<li>SQL in DuckDB for the cleaning, so every rule can be read as SQL and the whole database rebuilds in seconds on a laptop.</li>
+<li>Power BI because it's what most UK data analyst job adverts ask for. Desktop runs only on Windows and I work on a Mac, so the report is written as text files and only rendered on Windows.</li>
+<li>Statistics only where a claim depends on them: one significance test and one forecast, each with its method and assumptions written down.</li>
+</ul>
+
+<h2>Part 2. Cleaning: every row accounted for</h2>
+<img src="pipeline-flow.png" alt="The analysis pipeline">
+<p>Every row gets exactly one category, tested in order, and the categories add back up to the 1,067,371 rows in the workbook.</p>
+<table><tr><th>Category</th><th>Rows</th><th>Why it's set aside, or kept</th></tr>
+<tr><td>Sales</td><td>1,015,071</td><td>Kept</td></tr>
+<tr><td>Copies of the same nine days in both sheets</td><td>22,523</td><td>Both sheets hold 1 to 9 December 2010, row for row. A test proves the copies are identical</td></tr>
+<tr><td>Returns and cancellations</td><td>17,974</td><td>Invoice starts with C</td></tr>
+<tr><td>Postage, fees, adjustments, vouchers</td><td>5,807</td><td>Not merchandise. Amazon fees alone total −£260,764</td></tr>
+<tr><td>Stock write-offs</td><td>3,391</td><td>Negative quantity on an ordinary invoice, with no price or customer</td></tr>
+<tr><td>Unpriced lines</td><td>2,599</td><td>Free items and notes such as "update"</td></tr>
+<tr><td>Bad debt entries</td><td>6</td><td>Invoice starts with A</td></tr></table>
+<h3>Corrections that aren't real sales</h3>
+<p><b>Voided lines:</b> 1,318 lines, £349,825, each a sale reversed in full by the same customer within 24 hours, matched one to one. The two largest orders in the data, 80,995 paper craft birds and 74,215 storage jars, were cancelled within 16 minutes. <b>Price errors:</b> 4 lines, £41,644, such as a picnic basket keyed at £649.50 instead of £4.95. Both stay in the data and are left out of the analysis.</p>
+<h3>What was kept</h3>
+<p>11,695 lines repeat another line on the same invoice exactly. The usual step is to drop them, but the till puts one product on several lines (11,038 product-and-invoice pairs have lines with different quantities), so an identical repeat is most likely a second scan. They're kept; dropping them would change revenue by £56,911, 0.3%, so no finding depends on it.</p>
+
+<h2>Part 3. What it found</h2>
+<table><tr><th>Question</th><th>Answer</th><th>Confidence</th></tr>
+<tr><td>Q1. Returns</td><td>1.9% of sales overall, but white cherry lights come back 35.1% of the time, pink 28.5%, a flannel 25.9% and a curio cabinet 22.8%. Look at the product first.</td><td>High</td></tr>
+<tr><td>Q2. New customers</td><td>42% of new customers order again within three months (95% interval 39% to 45%). December's Christmas buyers come back least: 18%.</td><td>Medium: 985 customers</td></tr>
+<tr><td>Q3. Who carries it</td><td>A quarter of customers bring in 70% of the money. 842 former regulars who spent £1.46 million haven't ordered in a year.</td><td>High</td></tr>
+<tr><td>Q4. The season</td><td>September to November is 36% of the first year and 38% of the second. "Same month last year" was out by 5.6% in an average month; plan with a margin of 5 to 10%.</td><td>Low to medium: one season to learn from</td></tr>
+<tr><td>Q5. What sells together</td><td>All 50 of the most strongly linked pairs are two items from the same range. Sell the ranges as sets.</td><td>High</td></tr>
+<tr><td>Q6. Abroad</td><td>A typical overseas customer's order is £119 bigger (95% interval £89 to £149; Mann-Whitney, p &lt; 0.001), tested per customer.</td><td>High</td></tr></table>
+<p>The data can't say why customers return goods or lapse; each recommendation says how to find out. The full write-up is <code>docs/03-results.md</code>.</p>
+
+<h2>Part 4. The Power BI report</h2>
+<p>Three pages for the owners. The saved report is <code>powerbi/RetailSales.pbix</code>, and <code>powerbi/RetailSales.pdf</code> is the same report exported from Desktop.</p>
+<img src="figures/powerbi-1.png" alt="Power BI overview page">
+<h3>The report as code</h3>
+<p><code>powerbi/build_pbip.py</code> writes a Power BI Project: the data model in TMDL and the pages in PBIR, both plain text. <code>powerbi/validate.py</code> checks every JSON file against the schema it names, checks that every field a visual uses exists in the model, and checks the TMDL indentation, all before Desktop sees it. CI regenerates the project and fails if it differs from the committed one.</p>
+<h3>A Windows machine that exists only while it's needed</h3>
+<p><code>scripts/powerbi_vm.sh up</code> creates the machine, an IAM role that can use Systems Manager and one S3 bucket, and copies the project and data through that bucket. Setup and every later step run through Systems Manager Run Command, so no port is opened for automation. Desktop was driven by PowerShell scripts run as scheduled tasks in a logged-in session, using Windows UI Automation, with a screenshot checked after each step. <code>fetch</code> copies the <code>.pbix</code> and PDF back, and <code>down</code> deletes everything, then lists anything still tagged with the project. The machine cost $0.198 an hour; the total is recorded once billing data is available.</p>
+
+<h2>Part 5. Everything that went wrong, and how I got past it</h2>
+<p>All of these happened on this build. The full story of each is in <code>docs/04-build-log.md</code>.</p>
+<h3>Data and analysis</h3>
+<table><tr><th>Problem</th><th>Cause</th><th>What I did</th></tr>
+<tr><td>pip stalled for ten minutes with no output</td><td>Not found; almost no CPU use while it hung</td><td>Installed one package at a time with a timeout and visible progress; every version pinned</td></tr>
+<tr><td>Risk of pandas guessing types</td><td>A guessed type can turn <code>C489449</code> into a missing value</td><td>Read everything as text, applied types in SQL, checked the workbook's checksum every run</td></tr>
+<tr><td>Nine days counted twice</td><td>The two sheets overlap, row for row</td><td>Set the first sheet's copies aside, with a test proving they're identical</td></tr>
+<tr><td>£390,000 of keying errors looked like sales and returns</td><td>Orders cancelled within minutes; a price keyed 130 times too high</td><td>One-to-one void matching within 24 hours; a narrow 20-times-median price rule that names its 4 lines in a test</td></tr>
+<tr><td>New-customer numbers seemed to collapse</td><td>The data starts in December 2009, so early "new" customers weren't new</td><td>Only customers first seen from December 2010 count as new</td></tr>
+<tr><td>The retention chart's last diagonal fell sharply</td><td>December 2011 stops on the 9th</td><td>Partial months left blank</td></tr>
+<tr><td>The smarter forecast did worse</td><td>The first half of 2011 ran below 2010, the autumn above</td><td>Used the plain method and said why; the chart now plots that one</td></tr>
+<tr><td>The same analysis gave a different interval</td><td>DuckDB returns rows in no guaranteed order, so the bootstrap drew from a different list</td><td><code>ORDER BY</code> on every query that feeds a figure; two runs match to the last digit</td></tr></table>
+<h3>Power BI</h3>
+<table><tr><th>Problem</th><th>Cause</th><th>What I did</th></tr>
+<tr><td>Wrong schema path in the first <code>.pbip</code></td><td>My mistake</td><td>The validator caught it before anything reached Windows</td></tr>
+<tr><td>A t3.xlarge launch refused after the dry run passed</td><td>A dry run checks permissions, not Free plan rules</td><td>m7i-flex.large, which the plan allows, with 8 GiB of memory</td></tr>
+<tr><td>A failed launch reported as success</td><td>Output piped through <code>sed</code>; a pipeline reports its last command's exit code</td><td>Report the script's own exit code</td></tr>
+<tr><td>The command waiter gave up during a 700 MB download</td><td>AWS's built-in waiter stops after a few minutes</td><td>Poll until the command really ends</td></tr>
+<tr><td>Desktop's TMDL parser wouldn't load in PowerShell 5.1</td><td>Loading Desktop's assembly failed there</td><td>Dropped that check; Desktop is the parser</td></tr>
+<tr><td>"Invalid indentation" on a column name</td><td>The apostrophe in <code>A's</code> ended the quoted name</td><td>Apostrophes doubled in the generator; the validator reads them back</td></tr>
+<tr><td>Automation blocked: hidden controls, a split button, an autocomplete list over Save</td><td>Save As shows its controls to UI Automation only as unnamed panes</td><td>Clicked by position, checked a screenshot after every step</td></tr>
+<tr><td>The first PDF copy was one page</td><td>Export writes a PDF per page to the same temporary folder</td><td>Copy the named report file</td></tr>
+<tr><td>The PDF clipped a table column and the slicer</td><td>Auto column widths; the slicer's list mode</td><td>Fixed column widths, a dropdown slicer, rebuilt and checked before deleting the machine</td></tr></table>
+
+<h2>Interview questions</h2>
+<p class="q">"Why compare customers rather than orders in the significance test?"</p>
+<p class="a">Orders from the same customer aren't independent: a few very active overseas customers would dominate an order-level test. So each customer contributes one value, their median order. Order values are heavily skewed, so I used Mann-Whitney rather than a t-test, and a bootstrap for the interval on the difference.</p>
+<p class="q">"How do you know the cleaning didn't lose rows?"</p>
+<p class="a">Every row gets exactly one category, and a test checks the categories add back up to the 1,067,371 rows in the workbook. Each rule that sets rows aside has its own test, on the full dataset, not a sample. CI rebuilds from the raw workbook and runs them on every push.</p>
+<p class="q">"Why did the simpler forecast win?"</p>
+<p class="a">With two years of months there's one seasonal cycle to learn from. Scaling by the recent trend assumed the first half of 2011 told you about the autumn, and it didn't. I scored both on six months the methods hadn't seen, and the plain one was out by 5.6% against 9.7%. The honest answer is last year's month with a margin, and another year of data before anything cleverer.</p>
+<p class="q">"Why not just open Power BI and click?"</p>
+<p class="a">Because the report should be reviewable and repeatable like the rest of the code. As text it's diffed in pull requests, checked against Microsoft's schemas, and CI fails if it drifts from the generator. Desktop only renders and saves it. The Windows machine exists for the hour that takes.</p>
+<p class="q">"Why keep the repeated identical lines?"</p>
+<p class="a">I checked how the till records a basket before cleaning: it adds a line per scan, often with different quantities, so an identical repeat is most likely a real second scan. Then I measured the alternative: dropping them changes revenue by 0.3%, so no finding depends on the choice.</p>
+
+<h2>Checks done (17 October 2026)</h2>
+<table><tr><th>Check</th><th>Result</th></tr>
+<tr><td>Cleaning tests on all 1,067,371 rows (pytest)</td><td>8 of 8 pass</td></tr>
+<tr><td>Lint (ruff)</td><td>Pass</td></tr>
+<tr><td>Analysis re-run against the committed figures</td><td>All figures match</td></tr>
+<tr><td>Power BI project regenerated</td><td>No difference from the committed project</td></tr>
+<tr><td>Power BI schema and field checks</td><td>21 JSON files, 44 model fields, no problems</td></tr>
+<tr><td>GitHub Actions CI</td><td>Green</td></tr>
+<tr><td>Windows machine and everything it created</td><td>Deleted: instance, volume, key pair, IAM role, bucket (checked at teardown)</td></tr></table>
+
+</body></html>

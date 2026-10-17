@@ -1,10 +1,14 @@
-# Two years of a UK online retailer's sales
+# Online retail analytics
 
 [![ci](https://github.com/gumagatsby/retail-analysis-case-study/actions/workflows/ci.yml/badge.svg)](https://github.com/gumagatsby/retail-analysis-case-study/actions/workflows/ci.yml)
 
 A data analysis of 1,067,371 real transactions from an online gift-ware retailer, December 2009 to December 2011, written for its owners. SQL in DuckDB, Python for the statistics, and a Power BI report.
 
 **Start with the findings:** [docs/03-results.md](docs/03-results.md).
+
+![Architecture](docs/architecture.png)
+
+Editable source: [`docs/architecture.drawio`](docs/architecture.drawio). Walkthrough: [`docs/walkthrough.pdf`](docs/walkthrough.pdf). Portrait version for social posts: [`docs/linkedin-architecture.drawio`](docs/linkedin-architecture.drawio).
 
 | | |
 |---|---|
@@ -35,6 +39,8 @@ Three pages for the owners: the overview, customers, and products and returns. T
 The report is written as code. `powerbi/build_pbip.py` generates a Power BI Project (TMDL model, PBIR pages), and `powerbi/validate.py` checks it against Microsoft's schemas before Desktop sees it. CI regenerates the project and fails if it differs from the committed one. Desktop runs only on Windows, so `scripts/powerbi_vm.sh` creates a Windows machine in AWS, copies the project and data onto it, and deletes everything afterwards; the build log says how Desktop was driven on it.
 
 ## Cleaning, in one table
+
+![The analysis pipeline](docs/pipeline-flow.png)
 
 Every row is kept as a sale or set aside with a reason, and the categories add back up to the 1,067,371 rows in the workbook. A test checks each rule against the full dataset.
 
