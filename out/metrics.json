@@ -1,0 +1,558 @@
+{
+  "data_quality": {
+    "raw_rows": 1067371,
+    "categories": {
+      "sale": 1015071,
+      "overlap_duplicate": 22523,
+      "cancellation": 17974,
+      "non_product": 5807,
+      "stock_adjustment": 3391,
+      "zero_price": 2599,
+      "accounting_adjustment": 6
+    },
+    "voided_lines": 1318,
+    "voided_revenue": 349824.57,
+    "price_error_lines": 4,
+    "price_error_revenue": 41644.44,
+    "repeated_lines": 11695,
+    "repeated_revenue": 56911.18,
+    "clean_lines": 1013749,
+    "gross_revenue": 19309485.43,
+    "invoices": 39401,
+    "customers": 5850,
+    "no_customer_lines": 226880,
+    "no_customer_revenue": 2573988.52,
+    "repeated_share_of_revenue": 0.002947317276077201
+  },
+  "returns": {
+    "returned": 369868.37,
+    "rate": 0.019154750205065407,
+    "return_invoices": 7096,
+    "returning_customers": 2359,
+    "top_by_value": [
+      {
+        "stock_code": "22423",
+        "description": "REGENCY CAKESTAND 3 TIER",
+        "returned": 14440.2,
+        "sold": 328953.67,
+        "orders": 3903,
+        "rate": 0.0439
+      },
+      {
+        "stock_code": "85123A",
+        "description": "WHITE HANGING HEART T-LIGHT HOLDER",
+        "returned": 7015.9,
+        "sold": 255694.71,
+        "orders": 5361,
+        "rate": 0.0274
+      },
+      {
+        "stock_code": "21108",
+        "description": "FAIRY CAKE FLANNEL ASSORTED COLOUR",
+        "returned": 6576.57,
+        "sold": 25397.77,
+        "orders": 612,
+        "rate": 0.2589
+      },
+      {
+        "stock_code": "79323W",
+        "description": "WHITE CHERRY LIGHTS",
+        "returned": 6290.3,
+        "sold": 17917.92,
+        "orders": 348,
+        "rate": 0.3511
+      },
+      {
+        "stock_code": "48185",
+        "description": "DOORMAT FAIRY CAKE",
+        "returned": 4678.68,
+        "sold": 45777.19,
+        "orders": 983,
+        "rate": 0.1022
+      },
+      {
+        "stock_code": "47566B",
+        "description": "TEA TIME PARTY BUNTING",
+        "returned": 4275.1,
+        "sold": 25621.54,
+        "orders": 759,
+        "rate": 0.1669
+      },
+      {
+        "stock_code": "22138",
+        "description": "BAKING SET 9 PIECE RETROSPOT",
+        "returned": 3988.6,
+        "sold": 45901.81,
+        "orders": 1910,
+        "rate": 0.0869
+      },
+      {
+        "stock_code": "79323P",
+        "description": "PINK CHERRY LIGHTS",
+        "returned": 3890.55,
+        "sold": 13657.13,
+        "orders": 264,
+        "rate": 0.2849
+      },
+      {
+        "stock_code": "21175",
+        "description": "GIN + TONIC DIET METAL SIGN",
+        "returned": 3754.98,
+        "sold": 43925.88,
+        "orders": 1658,
+        "rate": 0.0855
+      },
+      {
+        "stock_code": "71477",
+        "description": "COLOUR GLASS. STAR T-LIGHT HOLDER",
+        "returned": 3653.16,
+        "sold": 41197.19,
+        "orders": 807,
+        "rate": 0.0887
+      }
+    ],
+    "top_by_rate": [
+      {
+        "stock_code": "79323W",
+        "description": "WHITE CHERRY LIGHTS",
+        "returned": 6290.3,
+        "sold": 17917.92,
+        "orders": 348,
+        "rate": 0.3511
+      },
+      {
+        "stock_code": "79323P",
+        "description": "PINK CHERRY LIGHTS",
+        "returned": 3890.55,
+        "sold": 13657.13,
+        "orders": 264,
+        "rate": 0.2849
+      },
+      {
+        "stock_code": "21108",
+        "description": "FAIRY CAKE FLANNEL ASSORTED COLOUR",
+        "returned": 6576.57,
+        "sold": 25397.77,
+        "orders": 612,
+        "rate": 0.2589
+      },
+      {
+        "stock_code": "21735",
+        "description": "TWO DOOR CURIO CABINET",
+        "returned": 2535.6,
+        "sold": 11112.85,
+        "orders": 262,
+        "rate": 0.2282
+      },
+      {
+        "stock_code": "22273",
+        "description": "FELTCRAFT DOLL MOLLY",
+        "returned": 3545.1,
+        "sold": 20174.59,
+        "orders": 809,
+        "rate": 0.1757
+      },
+      {
+        "stock_code": "47566B",
+        "description": "TEA TIME PARTY BUNTING",
+        "returned": 4275.1,
+        "sold": 25621.54,
+        "orders": 759,
+        "rate": 0.1669
+      },
+      {
+        "stock_code": "22191",
+        "description": "IVORY DINER WALL CLOCK",
+        "returned": 2703.85,
+        "sold": 16284.05,
+        "orders": 620,
+        "rate": 0.166
+      },
+      {
+        "stock_code": "22655",
+        "description": "VINTAGE RED KITCHEN CABINET",
+        "returned": 1945.5,
+        "sold": 12470.0,
+        "orders": 51,
+        "rate": 0.156
+      },
+      {
+        "stock_code": "22838",
+        "description": "3 TIER CAKE TIN RED AND CREAM",
+        "returned": 1816.7,
+        "sold": 13280.66,
+        "orders": 271,
+        "rate": 0.1368
+      },
+      {
+        "stock_code": "21749",
+        "description": "LARGE RED RETROSPOT WINDMILL",
+        "returned": 1381.9,
+        "sold": 10980.98,
+        "orders": 286,
+        "rate": 0.1258
+      }
+    ]
+  },
+  "seasonality": {
+    "years": [
+      {
+        "year": "Dec 2009 to Nov 2010",
+        "revenue": 9369909.41,
+        "orders": 19688,
+        "aov": 475.92
+      },
+      {
+        "year": "Dec 2010 to Nov 2011",
+        "revenue": 9493090.41,
+        "orders": 18901,
+        "aov": 502.25
+      }
+    ],
+    "sep_nov_share": {
+      "Dec 2009 to Nov 2010": 0.3614258902424117,
+      "Dec 2010 to Nov 2011": 0.37577837310410694
+    },
+    "busiest_month": "2011-11-01",
+    "busiest_month_revenue": 1447946.48,
+    "quietest_month": "2011-02-01",
+    "quietest_month_revenue": 508677.55,
+    "forecast": {
+      "holdout": [
+        "2011-06-01",
+        "2011-07-01",
+        "2011-08-01",
+        "2011-09-01",
+        "2011-10-01",
+        "2011-11-01"
+      ],
+      "actual": [
+        697037.0,
+        687900.0,
+        720966.0,
+        1025937.0,
+        1093414.0,
+        1447946.0
+      ],
+      "seasonal_naive": [
+        685641.0,
+        630046.0,
+        673441.0,
+        865956.0,
+        1090038.0,
+        1430534.0
+      ],
+      "seasonal_naive_growth": [
+        655710.0,
+        602542.0,
+        644043.0,
+        828154.0,
+        1042454.0,
+        1368086.0
+      ],
+      "growth_factor": 0.9563461671219565,
+      "mape_seasonal_naive": 0.05623678580931979,
+      "mape_seasonal_naive_growth": 0.0974356674380449,
+      "total_error_naive": -0.052447545193474054,
+      "total_error_grown": -0.09381184169877788
+    }
+  },
+  "customers": {
+    "customers": 5850,
+    "top1_share": 0.3102017739848515,
+    "top10_share": 0.6313164226206415,
+    "top20_share": 0.76671181076989,
+    "one_order_share": 0.2770940170940171,
+    "median_orders": 3.0,
+    "median_revenue": 856.02,
+    "segments": [
+      {
+        "segment": "Best customers",
+        "customers": 1467,
+        "revenue": 11711258.45,
+        "median_recency_days": 16.0,
+        "revenue_share": 0.6998,
+        "customer_share": 0.2508
+      },
+      {
+        "segment": "Loyal",
+        "customers": 1201,
+        "revenue": 2411417.85,
+        "median_recency_days": 72.0,
+        "revenue_share": 0.1441,
+        "customer_share": 0.2053
+      },
+      {
+        "segment": "Former regulars",
+        "customers": 842,
+        "revenue": 1458100.31,
+        "median_recency_days": 373.5,
+        "revenue_share": 0.0871,
+        "customer_share": 0.1439
+      },
+      {
+        "segment": "Lapsed",
+        "customers": 1887,
+        "revenue": 892316.72,
+        "median_recency_days": 396.0,
+        "revenue_share": 0.0533,
+        "customer_share": 0.3226
+      },
+      {
+        "segment": "Recent, few orders",
+        "customers": 453,
+        "revenue": 262403.58,
+        "median_recency_days": 25.0,
+        "revenue_share": 0.0157,
+        "customer_share": 0.0774
+      }
+    ],
+    "slipping_revenue_two_years": 1458100.31
+  },
+  "cohorts": {
+    "new_customers_per_month_from_dec_2010": {
+      "2010-12-01": 76,
+      "2011-01-01": 72,
+      "2011-02-01": 126,
+      "2011-03-01": 179,
+      "2011-04-01": 106,
+      "2011-05-01": 111,
+      "2011-06-01": 107,
+      "2011-07-01": 101,
+      "2011-08-01": 107,
+      "2011-09-01": 188,
+      "2011-10-01": 222,
+      "2011-11-01": 191
+    },
+    "median_new_per_month_jan_to_nov_2011": 111.0,
+    "retained_within_3_months": {
+      "2010-12-01": 0.1842,
+      "2011-01-01": 0.3889,
+      "2011-02-01": 0.3492,
+      "2011-03-01": 0.4358,
+      "2011-04-01": 0.3962,
+      "2011-05-01": 0.4234,
+      "2011-06-01": 0.4766,
+      "2011-07-01": 0.505,
+      "2011-08-01": 0.5234
+    },
+    "dec_2009_cohort_size": 951,
+    "new_customers_dec10_aug11": 985,
+    "came_back_within_3_months": 411,
+    "came_back_rate": 0.41725888324873095,
+    "came_back_ci95": [
+      0.38684419011876353,
+      0.44831644301812373
+    ]
+  },
+  "baskets": {
+    "invoices": 39401,
+    "pairs_considered": 28040,
+    "same_range_share_of_top50": 1.0,
+    "top_same_range": [
+      {
+        "product_a": "KIDS RAIN MAC BLUE",
+        "product_b": "KIDS RAIN MAC PINK",
+        "together": 171,
+        "share_of_a_orders": 0.83,
+        "share_of_b_orders": 0.784,
+        "lift": 150.031,
+        "same_range": true
+      },
+      {
+        "product_a": "HERB MARKER PARSLEY",
+        "product_b": "HERB MARKER CHIVES",
+        "together": 203,
+        "share_of_a_orders": 0.819,
+        "share_of_b_orders": 0.927,
+        "lift": 147.268,
+        "same_range": true
+      },
+      {
+        "product_a": "HERB MARKER THYME",
+        "product_b": "HERB MARKER ROSEMARY",
+        "together": 231,
+        "share_of_a_orders": 0.928,
+        "share_of_b_orders": 0.92,
+        "lift": 145.628,
+        "same_range": true
+      },
+      {
+        "product_a": "HERB MARKER THYME",
+        "product_b": "HERB MARKER CHIVES",
+        "together": 199,
+        "share_of_a_orders": 0.799,
+        "share_of_b_orders": 0.909,
+        "lift": 143.786,
+        "same_range": true
+      },
+      {
+        "product_a": "HERB MARKER THYME",
+        "product_b": "HERB MARKER PARSLEY",
+        "together": 223,
+        "share_of_a_orders": 0.896,
+        "share_of_b_orders": 0.899,
+        "lift": 142.286,
+        "same_range": true
+      },
+      {
+        "product_a": "HERB MARKER MINT",
+        "product_b": "HERB MARKER CHIVES",
+        "together": 196,
+        "share_of_a_orders": 0.79,
+        "share_of_b_orders": 0.895,
+        "lift": 142.189,
+        "same_range": true
+      },
+      {
+        "product_a": "HERB MARKER ROSEMARY",
+        "product_b": "HERB MARKER CHIVES",
+        "together": 198,
+        "share_of_a_orders": 0.789,
+        "share_of_b_orders": 0.904,
+        "lift": 141.924,
+        "same_range": true
+      },
+      {
+        "product_a": "HERB MARKER ROSEMARY",
+        "product_b": "HERB MARKER PARSLEY",
+        "together": 224,
+        "share_of_a_orders": 0.892,
+        "share_of_b_orders": 0.903,
+        "lift": 141.785,
+        "same_range": true
+      }
+    ],
+    "top_cross_range": [
+      {
+        "product_a": "TREASURE ISLAND BOOK BOX",
+        "product_b": "GYMKHANA TREASURE BOOK BOX",
+        "together": 118,
+        "share_of_a_orders": 0.442,
+        "share_of_b_orders": 0.551,
+        "lift": 81.37,
+        "same_range": false
+      },
+      {
+        "product_a": "MOODY GIRL DOOR HANGER",
+        "product_b": "TOXIC AREA  DOOR HANGER",
+        "together": 152,
+        "share_of_a_orders": 0.492,
+        "share_of_b_orders": 0.535,
+        "lift": 68.245,
+        "same_range": false
+      },
+      {
+        "product_a": "PURPLE DRAWERKNOB ACRYLIC EDWARDIAN",
+        "product_b": "BLUE DRAWER KNOB ACRYLIC EDWARDIAN",
+        "together": 108,
+        "share_of_a_orders": 0.38,
+        "share_of_b_orders": 0.468,
+        "lift": 64.864,
+        "same_range": false
+      },
+      {
+        "product_a": "MOODY BOY  DOOR HANGER",
+        "product_b": "TOXIC AREA  DOOR HANGER",
+        "together": 115,
+        "share_of_a_orders": 0.462,
+        "share_of_b_orders": 0.405,
+        "lift": 64.075,
+        "same_range": false
+      },
+      {
+        "product_a": "MOODY GIRL DOOR HANGER",
+        "product_b": "DO NOT TOUCH MY STUFF DOOR HANGER",
+        "together": 122,
+        "share_of_a_orders": 0.395,
+        "share_of_b_orders": 0.484,
+        "lift": 61.732,
+        "same_range": false
+      },
+      {
+        "product_a": "SET/4 RED MINI ROSE CANDLE IN BOWL",
+        "product_b": "BEADED CRYSTAL HEART PINK ON STICK",
+        "together": 104,
+        "share_of_a_orders": 0.416,
+        "share_of_b_orders": 0.39,
+        "lift": 61.389,
+        "same_range": false
+      },
+      {
+        "product_a": "DOG BOWL CHASING BALL DESIGN",
+        "product_b": "ILLUSTRATED CAT BOWL",
+        "together": 186,
+        "share_of_a_orders": 0.508,
+        "share_of_b_orders": 0.562,
+        "lift": 60.494,
+        "same_range": false
+      },
+      {
+        "product_a": "CHRISTMAS TREE DECORATION WITH BELL",
+        "product_b": "BEADED CRYSTAL HEART PINK ON STICK",
+        "together": 103,
+        "share_of_a_orders": 0.401,
+        "share_of_b_orders": 0.386,
+        "lift": 59.143,
+        "same_range": false
+      }
+    ]
+  },
+  "markets": {
+    "uk_revenue_share": 0.8533199286812896,
+    "international_revenue": 2832316.6999999997,
+    "countries": 43,
+    "top_international": [
+      {
+        "country": "EIRE",
+        "revenue": 615517.97,
+        "customers": 3,
+        "orders": 579
+      },
+      {
+        "country": "Netherlands",
+        "revenue": 549775.06,
+        "customers": 22,
+        "orders": 216
+      },
+      {
+        "country": "Germany",
+        "revenue": 383727.77,
+        "customers": 107,
+        "orders": 753
+      },
+      {
+        "country": "France",
+        "revenue": 310051.58,
+        "customers": 93,
+        "orders": 595
+      },
+      {
+        "country": "Australia",
+        "revenue": 167565.91,
+        "customers": 15,
+        "orders": 86
+      },
+      {
+        "country": "Spain",
+        "revenue": 97818.07,
+        "customers": 38,
+        "orders": 144
+      }
+    ],
+    "order_value_test": {
+      "international_customers": 517,
+      "uk_customers": 5333,
+      "median_international": 381.8,
+      "median_uk": 263.14,
+      "difference": 118.66000000000003,
+      "ci95": [
+        89.39924999999998,
+        148.91000000000003
+      ],
+      "mann_whitney_u": 1834282.5,
+      "p_value": 1.8262721973354674e-35,
+      "prob_international_larger": 0.6652794305446799
+    }
+  }
+}

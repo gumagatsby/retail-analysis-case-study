@@ -1,0 +1,30 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  data:
+    name: rebuild from the raw data and test every rule
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: ruff check .
+      - name: Download the workbook from UCI and check its checksum
+        run: python scripts/extract.py
+      - run: python scripts/build.py
+      - run: pytest -q
+      - name: The analysis runs and matches the committed figures
+        run: |
+          cp out/metrics.json /tmp/committed.json
+          python analysis/run.py
+          python scripts/compare_metrics.py /tmp/committed.json out/metrics.json
