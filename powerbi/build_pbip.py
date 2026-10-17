@@ -42,7 +42,8 @@ def partition(table, m_lines):
 
 
 def q(name):
-    return f"'{name}'" if any(c in name for c in " .=:'") else name
+    """Quote a TMDL object name when it needs it; an apostrophe inside is written twice."""
+    return "'" + name.replace("'", "''") + "'" if any(c in name for c in " .=:'") else name
 
 
 def csv_source(file, types):
@@ -81,6 +82,8 @@ def write_model():
         + "\n" + measure("Orders", "DISTINCTCOUNT(Sales[Invoice])", "#,0")
         + "\n" + measure("Customers with an account", "DISTINCTCOUNTNOBLANK(Sales[Customer ID])", "#,0")
         + "\n" + measure("Average order", "DIVIDE([Revenue], [Orders])", "£#,0.00")
+        # December 2011 stops on the 9th, so the monthly chart shows complete months only.
+        + "\n" + measure("Revenue, complete months", "IF(MAX(Sales[Month]) < DATE(2011, 12, 1), [Revenue])", "£#,0")
         + "\n" + col("Invoice", "invoice", "string")
         + "\n" + col("Date", "invoice_date", "dateTime", fmt="dd mmm yyyy")
         + "\n" + col("Month", "month", "dateTime", fmt="mmm yyyy")
@@ -190,7 +193,7 @@ def meas(entity, prop):
             "queryRef": f"{entity}.{prop}", "nativeQueryRef": prop}
 
 
-def visual(name, vtype, x, y, w, h, z, roles, title=None, sort=None):
+def visual(name, vtype, x, y, w, h, z, roles, title=None, sort=None, objects=None):
     v = {
         "$schema": f"{SCHEMA}/report/definition/visualContainer/2.6.0/schema.json",
         "name": name,
@@ -202,6 +205,8 @@ def visual(name, vtype, x, y, w, h, z, roles, title=None, sort=None):
         field, direction = sort
         v["visual"]["query"]["sortDefinition"] = {"sort": [{"field": field["field"], "direction": direction}],
                                                   "isDefaultSort": True}
+    if objects:
+        v["visual"]["objects"] = objects
     if title:
         v["visual"]["visualContainerObjects"] = {
             "title": [{"properties": {"show": lit("true"), "text": lit(f"'{title}'")}}]}
@@ -216,12 +221,13 @@ def pages():
         visual("overview_customers", "card", 650, 20, 300, 110, 3, {"Values": [meas(S, "Customers with an account")]}),
         visual("overview_average_order", "card", 965, 20, 295, 110, 4, {"Values": [meas(S, "Average order")]}),
         visual("overview_by_month", "lineChart", 20, 150, 830, 550, 5,
-               {"Category": [column(S, "Month", active=True)], "Y": [meas(S, "Revenue")]},
-               title="Revenue by month: September to November carries over a third of the year"),
+               {"Category": [column(S, "Month", active=True)], "Y": [meas(S, "Revenue, complete months")]},
+               title="Revenue by month, Dec 2009 to Nov 2011: September to November carries over a third of the year"),
         visual("overview_by_country", "clusteredBarChart", 870, 150, 390, 460, 6,
                {"Category": [column(S, "Country", active=True)], "Y": [meas(S, "Revenue")]},
                title="Revenue by country", sort=(meas(S, "Revenue"), "Descending")),
-        visual("overview_country_slicer", "slicer", 870, 625, 390, 75, 7, {"Values": [column(S, "Country")]}),
+        visual("overview_country_slicer", "slicer", 870, 625, 390, 75, 7, {"Values": [column(S, "Country")]},
+               objects={"data": [{"properties": {"mode": lit("'Dropdown'")}}]}),
     ]
     customers = [
         visual("customers_segments", "clusteredBarChart", 20, 20, 610, 330, 1,
@@ -237,14 +243,18 @@ def pages():
                title="New customers ordering again, by month of first order (complete months only)"),
     ]
     products = [
-        visual("products_returns", "tableEx", 20, 20, 760, 680, 1,
+        visual("products_returns", "tableEx", 20, 20, 540, 680, 1,
                {"Values": [column(R, "Product"), column(R, "Value sold"), column(R, "Value returned"),
                            column(R, "Return rate")]},
                title="Returns by product", sort=(column(R, "Value returned"), "Descending")),
-        visual("products_pairs", "tableEx", 800, 20, 460, 680, 2,
-               {"Values": [column(P, "Product A"), column(P, "Product B"), column(P, "Orders with both"),
-                           column(P, "Lift")]},
-               title="Products bought together", sort=(column(P, "Lift"), "Descending")),
+        visual("products_pairs", "tableEx", 575, 20, 685, 680, 2,
+               {"Values": [column(P, "Product A"), column(P, "Product B"), column(P, "Lift"),
+                           column(P, "Orders with both")]},
+               title="Products bought together", sort=(column(P, "Lift"), "Descending"),
+               # Fixed widths so all four columns fit; long product names wrap instead of pushing the last one off.
+               objects={"columnWidth": [{"properties": {"value": lit(f"{w}D")}, "selector": {"metadata": f"{P}.{c}"}}
+                                        for c, w in [("Product A", 250), ("Product B", 250), ("Lift", 55),
+                                                     ("Orders with both", 115)]]}),
     ]
     return [("overview", "Overview", overview), ("customers", "Customers", customers),
             ("products", "Products and returns", products)]

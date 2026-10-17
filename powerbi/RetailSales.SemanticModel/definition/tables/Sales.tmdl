@@ -12,6 +12,9 @@ table Sales
 	measure 'Average order' = DIVIDE([Revenue], [Orders])
 		formatString: £#,0.00
 
+	measure 'Revenue, complete months' = IF(MAX(Sales[Month]) < DATE(2011, 12, 1), [Revenue])
+		formatString: £#,0
+
 	column Invoice
 		dataType: string
 		summarizeBy: none

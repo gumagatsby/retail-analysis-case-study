@@ -42,11 +42,11 @@
                       "Entity": "Sales"
                     }
                   },
-                  "Property": "Revenue"
+                  "Property": "Revenue, complete months"
                 }
               },
-              "queryRef": "Sales.Revenue",
-              "nativeQueryRef": "Revenue"
+              "queryRef": "Sales.Revenue, complete months",
+              "nativeQueryRef": "Revenue, complete months"
             }
           ]
         }
@@ -67,7 +67,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Revenue by month: September to November carries over a third of the year'"
+                  "Value": "'Revenue by month, Dec 2009 to Nov 2011: September to November carries over a third of the year'"
                 }
               }
             }

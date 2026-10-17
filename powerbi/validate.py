@@ -52,8 +52,8 @@ def model_fields() -> dict[str, set[str]]:
     for f in (HERE / "RetailSales.SemanticModel" / "definition" / "tables").glob("*.tmdl"):
         text = f.read_text()
         table = re.search(r"^table (.+)$", text, re.MULTILINE).group(1).strip("'")
-        names = re.findall(r"^\t(?:column|measure) ('[^']+'|\S+)", text, re.MULTILINE)
-        fields[table] = {n.strip("'") for n in names}
+        names = re.findall(r"^\t(?:column|measure) ('(?:[^']|'')+'|\S+)", text, re.MULTILINE)
+        fields[table] = {n[1:-1].replace("''", "'") if n.startswith("'") else n for n in names}
     return fields
 
 

@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
   "name": "products_pairs",
   "position": {
-    "x": 800,
+    "x": 575,
     "y": 20,
     "z": 2,
     "height": 680,
-    "width": 460,
+    "width": 685,
     "tabOrder": 2
   },
   "visual": {
@@ -51,11 +51,11 @@
                       "Entity": "Product pairs"
                     }
                   },
-                  "Property": "Orders with both"
+                  "Property": "Lift"
                 }
               },
-              "queryRef": "Product pairs.Orders with both",
-              "nativeQueryRef": "Orders with both"
+              "queryRef": "Product pairs.Lift",
+              "nativeQueryRef": "Lift"
             },
             {
               "field": {
@@ -65,11 +65,11 @@
                       "Entity": "Product pairs"
                     }
                   },
-                  "Property": "Lift"
+                  "Property": "Orders with both"
                 }
               },
-              "queryRef": "Product pairs.Lift",
-              "nativeQueryRef": "Lift"
+              "queryRef": "Product pairs.Orders with both",
+              "nativeQueryRef": "Orders with both"
             }
           ]
         }
@@ -94,6 +94,66 @@
       }
     },
     "drillFilterOtherVisuals": true,
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "250D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Product pairs.Product A"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "250D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Product pairs.Product B"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "55D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Product pairs.Lift"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "115D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Product pairs.Orders with both"
+          }
+        }
+      ]
+    },
     "visualContainerObjects": {
       "title": [
         {

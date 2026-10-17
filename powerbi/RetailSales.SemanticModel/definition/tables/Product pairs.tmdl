@@ -16,7 +16,7 @@ table 'Product pairs'
 		summarizeBy: sum
 		sourceColumn: together
 
-	column 'Share of A's orders with B'
+	column 'Share of A''s orders with B'
 		dataType: double
 		formatString: 0%
 		summarizeBy: none
