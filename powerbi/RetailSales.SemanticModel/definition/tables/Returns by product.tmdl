@@ -1,0 +1,51 @@
+table 'Returns by product'
+
+	measure Returned = SUM('Returns by product'[Value returned])
+		formatString: £#,0
+
+	measure 'Share returned' = DIVIDE([Returned], SUM('Returns by product'[Value sold]))
+		formatString: 0.0%
+
+	column 'Stock code'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: stock_code
+
+	column Product
+		dataType: string
+		summarizeBy: none
+		sourceColumn: description
+
+	column 'Value returned'
+		dataType: decimal
+		formatString: £#,0
+		summarizeBy: sum
+		sourceColumn: returned
+
+	column 'Value sold'
+		dataType: decimal
+		formatString: £#,0
+		summarizeBy: sum
+		sourceColumn: sold
+
+	column Orders
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: orders
+
+	column 'Return rate'
+		dataType: double
+		formatString: 0.0%
+		summarizeBy: none
+		sourceColumn: rate
+
+	partition 'Returns by product' = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "returns_by_product.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"stock_code", type text}, {"description", type text}, {"returned", Currency.Type}, {"sold", Currency.Type}, {"orders", Int64.Type}, {"rate", type number}}, "en-US")
+				in
+				    Typed

@@ -1,0 +1,34 @@
+table Cohorts
+
+	measure 'Share ordering again' = AVERAGE(Cohorts[Share ordering])
+		formatString: 0%
+
+	column 'First order month'
+		dataType: dateTime
+		formatString: mmm yyyy
+		summarizeBy: none
+		sourceColumn: cohort
+
+	column 'Months after first order'
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: months_after
+
+	column 'Share ordering'
+		dataType: double
+		formatString: 0%
+		summarizeBy: average
+		sourceColumn: share_ordering
+
+	partition Cohorts = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "cohorts.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"cohort", type date}, {"months_after", Int64.Type}, {"share_ordering", type number}}, "en-US"),
+				    Reliable = Table.SelectRows(Typed, each [cohort] >= #date(2010, 12, 1) and [months_after] >= 1
+				        and Date.AddMonths([cohort], [months_after]) < #date(2011, 12, 1))
+				in
+				    Reliable

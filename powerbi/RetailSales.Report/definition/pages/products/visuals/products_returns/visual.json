@@ -1,0 +1,120 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "name": "products_returns",
+  "position": {
+    "x": 20,
+    "y": 20,
+    "z": 1,
+    "height": 680,
+    "width": 760,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Returns by product"
+                    }
+                  },
+                  "Property": "Product"
+                }
+              },
+              "queryRef": "Returns by product.Product",
+              "nativeQueryRef": "Product"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Returns by product"
+                    }
+                  },
+                  "Property": "Value sold"
+                }
+              },
+              "queryRef": "Returns by product.Value sold",
+              "nativeQueryRef": "Value sold"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Returns by product"
+                    }
+                  },
+                  "Property": "Value returned"
+                }
+              },
+              "queryRef": "Returns by product.Value returned",
+              "nativeQueryRef": "Value returned"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Returns by product"
+                    }
+                  },
+                  "Property": "Return rate"
+                }
+              },
+              "queryRef": "Returns by product.Return rate",
+              "nativeQueryRef": "Return rate"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Returns by product"
+                  }
+                },
+                "Property": "Value returned"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Returns by product'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

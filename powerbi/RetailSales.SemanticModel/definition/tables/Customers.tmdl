@@ -1,0 +1,66 @@
+table Customers
+
+	measure 'Customer count' = COUNTROWS(Customers)
+		formatString: #,0
+
+	measure 'Customer revenue' = SUM(Customers[Two-year revenue])
+		formatString: £#,0
+
+	measure 'Share of customer revenue' = DIVIDE([Customer revenue], CALCULATE([Customer revenue], ALL(Customers)))
+		formatString: 0.0%
+
+	column 'Customer ID'
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: customer_id
+
+	column 'Main country'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: country
+
+	column Orders
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: orders
+
+	column 'Two-year revenue'
+		dataType: decimal
+		formatString: £#,0
+		summarizeBy: sum
+		sourceColumn: revenue
+
+	column 'Days since last order'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: average
+		sourceColumn: recency_days
+
+	column Segment
+		dataType: string
+		summarizeBy: none
+		sourceColumn: segment
+
+	column 'First order'
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		summarizeBy: none
+		sourceColumn: first_order
+
+	column 'Last order'
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		summarizeBy: none
+		sourceColumn: last_order
+
+	partition Customers = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "customers.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"customer_id", Int64.Type}, {"country", type text}, {"orders", Int64.Type}, {"revenue", Currency.Type}, {"recency_days", Int64.Type}, {"r", Int64.Type}, {"f", Int64.Type}, {"m", Int64.Type}, {"segment", type text}, {"first_order", type date}, {"last_order", type date}}, "en-US")
+				in
+				    Typed

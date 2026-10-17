@@ -7,3 +7,5 @@ data/*.duckdb
 data/*.duckdb.wal
 data/powerbi/sales.parquet
 .DS_Store
+powerbi/**/.pbi/localSettings.json
+powerbi/**/.pbi/cache.abf

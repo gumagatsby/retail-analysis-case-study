@@ -1,0 +1,120 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "name": "products_pairs",
+  "position": {
+    "x": 800,
+    "y": 20,
+    "z": 2,
+    "height": 680,
+    "width": 460,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product pairs"
+                    }
+                  },
+                  "Property": "Product A"
+                }
+              },
+              "queryRef": "Product pairs.Product A",
+              "nativeQueryRef": "Product A"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product pairs"
+                    }
+                  },
+                  "Property": "Product B"
+                }
+              },
+              "queryRef": "Product pairs.Product B",
+              "nativeQueryRef": "Product B"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product pairs"
+                    }
+                  },
+                  "Property": "Orders with both"
+                }
+              },
+              "queryRef": "Product pairs.Orders with both",
+              "nativeQueryRef": "Orders with both"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product pairs"
+                    }
+                  },
+                  "Property": "Lift"
+                }
+              },
+              "queryRef": "Product pairs.Lift",
+              "nativeQueryRef": "Lift"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Product pairs"
+                  }
+                },
+                "Property": "Lift"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Products bought together'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

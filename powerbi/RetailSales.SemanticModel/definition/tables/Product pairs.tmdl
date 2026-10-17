@@ -1,0 +1,44 @@
+table 'Product pairs'
+
+	column 'Product A'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: product_a
+
+	column 'Product B'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: product_b
+
+	column 'Orders with both'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: together
+
+	column 'Share of A's orders with B'
+		dataType: double
+		formatString: 0%
+		summarizeBy: none
+		sourceColumn: share_of_a_orders
+
+	column Lift
+		dataType: double
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: lift
+
+	column 'Same range'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: same_range
+
+	partition 'Product pairs' = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "product_pairs.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"product_a", type text}, {"product_b", type text}, {"together", Int64.Type}, {"share_of_a_orders", type number}, {"share_of_b_orders", type number}, {"lift", type number}, {"same_range", type logical}}, "en-US")
+				in
+				    Typed
