@@ -9,3 +9,7 @@ data/powerbi/sales.parquet
 .DS_Store
 powerbi/**/.pbi/localSettings.json
 powerbi/**/.pbi/cache.abf
+
+# Local secrets
+.env
+.env.*
