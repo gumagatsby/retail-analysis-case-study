@@ -8,7 +8,7 @@ A data analysis of 1,067,371 real transactions from an online gift-ware retailer
 
 ![Architecture](docs/architecture.png)
 
-Editable source: [`docs/architecture.drawio`](docs/architecture.drawio). Walkthrough: [`docs/walkthrough.pdf`](docs/walkthrough.pdf). Portrait version for social posts: [`docs/linkedin-architecture.drawio`](docs/linkedin-architecture.drawio).
+Editable source: [`docs/architecture.drawio`](docs/architecture.drawio). Portrait version for social posts: [`docs/linkedin-architecture.drawio`](docs/linkedin-architecture.drawio).
 
 | | |
 |---|---|
