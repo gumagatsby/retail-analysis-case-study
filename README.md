@@ -1,6 +1,6 @@
 # Online retail analytics
 
-[![ci](https://github.com/gumagatsby/retail-analysis-case-study/actions/workflows/ci.yml/badge.svg)](https://github.com/gumagatsby/retail-analysis-case-study/actions/workflows/ci.yml)
+[![ci](https://github.com/tapiwa-magumise/retail-analysis-case-study/actions/workflows/ci.yml/badge.svg)](https://github.com/tapiwa-magumise/retail-analysis-case-study/actions/workflows/ci.yml)
 
 A data analysis of 1,067,371 real transactions from an online gift-ware retailer, December 2009 to December 2011, written for its owners. SQL in DuckDB, Python for the statistics, and a Power BI report.
 
