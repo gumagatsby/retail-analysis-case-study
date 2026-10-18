@@ -5,11 +5,11 @@ Written for the owners. Every figure comes from `out/metrics.json`, which `analy
 ## The short version
 
 - The business sold £19.3 million of products over the two years, to 5,850 customers with an account, plus orders placed without one.
-- **The year is made in the autumn.** September to November brought in 36% of the first year's sales and 38% of the second's.
-- **A quarter of customers bring in 70% of the money.** The top 1% alone bring in 31%.
-- **842 former regulars have gone quiet.** They spent £1.46 million over the two years and haven't ordered in a year. They're the cheapest growth available.
+- The year is made in the autumn. September to November brought in 36% of the first year's sales and 38% of the second's.
+- A quarter of customers bring in 70% of the money. The top 1% alone bring in 31%.
+- 842 former regulars have gone quiet. They spent £1.46 million over the two years and haven't ordered in a year. They're the cheapest growth available.
 - **Returns are low overall, 1.9% of sales, but a few products come back a quarter to a third of the time.** The cherry lights lead.
-- **Overseas customers order more each time.** Their typical order is £119 bigger than a UK customer's.
+- Overseas customers order more each time. Their typical order is £119 bigger than a UK customer's.
 
 ## In numbers
 
