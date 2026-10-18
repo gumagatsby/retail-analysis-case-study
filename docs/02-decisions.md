@@ -12,6 +12,21 @@ How the data was cleaned and analysed, and why. Every rule here is in `sql/` or 
 | The Windows machine | EC2 m7i-flex.large, Windows Server 2022, London | The account's Free plan refused a t3.xlarge; this type is allowed and has 8 GiB of memory, enough for Desktop with this data. $0.198 an hour, deleted as soon as the files were saved |
 | Checks | pytest on the full dataset, ruff | Every cleaning rule is tested against all 1,067,371 rows |
 
+## Trade-offs
+
+Each row names the alternative and what this choice gives up. The cleaning and analysis sections below explain each rule in full.
+
+| Choice | Alternative | Why this one | What it gives up |
+|---|---|---|---|
+| Power BI report written as code (TMDL and PBIR) | Building the report by hand in Desktop | Desktop runs only on Windows; as text, the report is generated, checked against Microsoft's schemas on the Mac, and reviewed in Git | A generator to maintain, and errors such as a quoted apostrophe only show up when Desktop opens the model |
+| Desktop driven by UI Automation | Clicking through it over Remote Desktop | Every step is a script that can be re-run, with a screenshot checked after each one | Brittle: some dialogs had to be clicked by screen position |
+| A Windows machine in AWS that exists only while the report is built | A Windows machine kept running, or a local one | About $0.20 an hour, deleted as soon as the files were saved | Each build waits for the machine to start and install Desktop |
+| m7i-flex.large | t3.xlarge | The Free plan refused the t3.xlarge; this type is allowed and has 8 GiB | Half the vCPUs and memory of a t3.xlarge |
+| Identical repeated lines kept | Dropping them as duplicates, the usual step | The till puts one product on several lines of an invoice, so a repeat is most likely a second scan | If some are real duplicates, revenue is overstated by up to £56,911 (0.3%); no finding depends on it |
+| Price errors at 20 times the median and £500 or more | 10 times the median | The looser rule also caught products sold by the box, which are real prices | A smaller price error could be missed |
+| Mann-Whitney U on each customer's median order | A t-test on all orders | Orders from one customer aren't independent, and order values are heavily skewed | Answers a question about typical customers, not about mean order value |
+| The simpler of two forecasts | A more elaborate model | With two years of months there is one seasonal cycle to learn from; the simpler method scored better on the last six months | The forecast is only as good as last year is as a guide |
+
 ## Cleaning
 
 Every row in the spreadsheet is given exactly one category, tested in this order. Only `sale` and `cancellation` rows are product transactions.
